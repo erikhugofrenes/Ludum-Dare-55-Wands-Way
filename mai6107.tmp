@@ -1,0 +1,161 @@
+[gd_scene load_steps=17 format=3 uid="uid://dmf3hqi16vssh"]
+
+[ext_resource type="Script" path="res://DandelionSeed.gd" id="1_l16qk"]
+[ext_resource type="Texture2D" uid="uid://dlnpjb0eegfcc" path="res://GameArt/DandelionSeed.png" id="2_i1sag"]
+[ext_resource type="Script" path="res://WindManager.gd" id="3_oleui"]
+[ext_resource type="Script" path="res://TravelDistanceManager.gd" id="4_gce3r"]
+[ext_resource type="Texture2D" uid="uid://8vv1jly3ci8v" path="res://GameArt/GrassFloorTexture.png" id="4_qxihy"]
+[ext_resource type="AudioStream" uid="uid://b2qlq10pnqy27" path="res://Audio/Wind 6070_47.wav" id="4_wr783"]
+[ext_resource type="Texture2D" uid="uid://d38s6c0uvgy1o" path="res://GameArt/BlueSkyTexture.png" id="6_oxt18"]
+[ext_resource type="Script" path="res://MoveBackground.gd" id="8_epvbe"]
+[ext_resource type="Script" path="res://StartingFlower.gd" id="8_ofgph"]
+[ext_resource type="PackedScene" uid="uid://s7cnjy336ply" path="res://Particles/explosion.tscn" id="9_xr4e5"]
+[ext_resource type="PackedScene" uid="uid://ba8aydrwipf20" path="res://flora.tscn" id="11_gmjam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5xfq"]
+size = Vector2(12, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw2qk"]
+size = Vector2(20, 83)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_321y3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhnmj"]
+size = Vector2(1152, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y8m86"]
+size = Vector2(2304, 149.75)
+
+[node name="Main" type="Node2D"]
+
+[node name="DandelionSeedPlayer" type="Node2D" parent="."]
+position = Vector2(0, 437)
+script = ExtResource("1_l16qk")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="DandelionSeedPlayer"]
+mass = 0.01
+gravity_scale = 0.008
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DandelionSeedPlayer/RigidBody2D"]
+position = Vector2(0, -27.5)
+shape = SubResource("RectangleShape2D_q5xfq")
+
+[node name="Sprite2D" type="Sprite2D" parent="DandelionSeedPlayer/RigidBody2D"]
+position = Vector2(2.38419e-07, -27)
+scale = Vector2(0.09375, 0.0800781)
+texture = ExtResource("2_i1sag")
+
+[node name="Detector" type="Area2D" parent="DandelionSeedPlayer/RigidBody2D" groups=["Seed"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DandelionSeedPlayer/RigidBody2D/Detector"]
+position = Vector2(0, -27.5)
+shape = SubResource("RectangleShape2D_jw2qk")
+
+[node name="Helper" type="Sprite2D" parent="DandelionSeedPlayer/RigidBody2D"]
+texture = SubResource("PlaceholderTexture2D_321y3")
+
+[node name="WindManager" type="Node2D" parent="."]
+script = ExtResource("3_oleui")
+
+[node name="Timer" type="Timer" parent="WindManager"]
+wait_time = 5.0
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="WindManager"]
+position = Vector2(1000, 0)
+stream = ExtResource("4_wr783")
+autoplay = true
+
+[node name="BirdZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BirdZone"]
+position = Vector2(0, -264)
+shape = SubResource("RectangleShape2D_qhnmj")
+
+[node name="GroundZone" type="Area2D" parent="." groups=["Ground"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundZone"]
+position = Vector2(0, 572.875)
+shape = SubResource("RectangleShape2D_y8m86")
+
+[node name="Sprite2D" type="Sprite2D" parent="GroundZone"]
+z_index = -5
+position = Vector2(576, 573)
+scale = Vector2(4.5, 0.585938)
+texture = ExtResource("4_qxihy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="GroundZone"]
+z_index = -5
+position = Vector2(-576, 573)
+scale = Vector2(4.5, 0.585937)
+texture = ExtResource("4_qxihy")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="TravelDistanceManager" type="Node2D" parent="."]
+script = ExtResource("4_gce3r")
+
+[node name="Timer" type="Timer" parent="TravelDistanceManager"]
+autostart = true
+
+[node name="Label" type="Label" parent="TravelDistanceManager"]
+offset_left = -92.0
+offset_top = -540.0
+offset_right = 91.0
+offset_bottom = -495.0
+text = "distance traveled :  0  m"
+
+[node name="SkyBackground" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(576, 324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D2" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(-576, -324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D3" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(576, -324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D4" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(-576, 324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="MoveBackground" type="Node2D" parent="."]
+script = ExtResource("8_epvbe")
+
+[node name="StartingFlower" type="Node2D" parent="MoveBackground"]
+position = Vector2(1, 404)
+script = ExtResource("8_ofgph")
+
+[node name="explosion" parent="MoveBackground/StartingFlower" instance=ExtResource("9_xr4e5")]
+
+[node name="Timer" type="Timer" parent="MoveBackground"]
+wait_time = 2.0
+autostart = true
+
+[node name="Flora" parent="MoveBackground" instance=ExtResource("11_gmjam")]
+
+[node name="FloraSpawnable1" type="Sprite2D" parent="MoveBackground"]
+
+[node name="FloraSpawnable2" type="Sprite2D" parent="MoveBackground"]
+
+[connection signal="is_flying" from="DandelionSeedPlayer" to="TravelDistanceManager" method="_on_dandelion_seed_is_flying"]
+[connection signal="area_entered" from="DandelionSeedPlayer/RigidBody2D/Detector" to="DandelionSeedPlayer" method="_on_detector_area_entered"]
+[connection signal="wind_rotation" from="WindManager" to="DandelionSeedPlayer" method="_on_wind_manager_wind_rotation"]
+[connection signal="timeout" from="WindManager/Timer" to="WindManager" method="_on_timer_timeout"]
+[connection signal="timeout" from="TravelDistanceManager/Timer" to="TravelDistanceManager" method="_on_timer_timeout"]
+[connection signal="timeout" from="MoveBackground/Timer" to="MoveBackground" method="_on_timer_timeout"]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b2qlq10pnqy27"
+path="res://.godot/imported/Wind 6070_47.wav-54c55cb5f16d8f052aad40fb211d827b.sample"
+
+[deps]
+
+source_file="res://Audio/Wind 6070_47.wav"
+dest_files=["res://.godot/imported/Wind 6070_47.wav-54c55cb5f16d8f052aad40fb211d827b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

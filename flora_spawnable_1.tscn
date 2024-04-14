@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cndjm7bh7bxtd"]
+
+[ext_resource type="Texture2D" uid="uid://dmue2klholj6b" path="res://GameArt/BladesOfGrass.png" id="1_46w4n"]
+[ext_resource type="Script" path="res://flora_spawnable_1.gd" id="2_s3f4a"]
+
+[node name="FloraSpawnable1" type="Sprite2D"]
+position = Vector2(1, -1)
+scale = Vector2(0.138794, 0.196533)
+texture = ExtResource("1_46w4n")
+script = ExtResource("2_s3f4a")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Flora"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(0, -5.17834)
+scale = Vector2(1, 1.00717)
+polygon = PackedVector2Array(-489.935, 437.585, 14.4099, -488.467, 489.935, 442.673)

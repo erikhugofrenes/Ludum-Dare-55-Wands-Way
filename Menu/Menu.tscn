@@ -1,0 +1,109 @@
+[gd_scene load_steps=6 format=3 uid="uid://rb1sb03s3mgn"]
+
+[ext_resource type="Script" path="res://Menu/Menu.gd" id="1_xqoc1"]
+[ext_resource type="Texture2D" uid="uid://d38s6c0uvgy1o" path="res://GameArt/BlueSkyTexture.png" id="2_324jf"]
+[ext_resource type="Texture2D" uid="uid://yd6wnkknyie" path="res://GameArt/NewStartImage.png" id="3_kru20"]
+[ext_resource type="Texture2D" uid="uid://dkfn652kgcbkq" path="res://GameArt/DandelionSeed.png" id="4_pl8e7"]
+[ext_resource type="AudioStream" uid="uid://b8xjyiwbiig52" path="res://Audio/Pickup_coin 7.wav" id="5_vf0g7"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchor_right = 2.357
+anchor_bottom = 2.002
+offset_right = 639.736
+offset_bottom = 239.704
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xqoc1")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 0.286
+anchor_bottom = 0.589
+offset_left = 126.0
+offset_top = 119.0
+offset_right = 144.528
+offset_bottom = 134.328
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 50.0
+offset_right = 1431.0
+offset_bottom = 913.0
+theme_override_font_sizes/normal_font_size = 25
+text = "Instructions:
+
+1) You control a Magic Wand that wants to travel as far as it can with finding its magic balance.
+
+2) In order to find your inner Balance you can try to sense it out but it helps to summon a helper orb to help guide you to your inner balance [By pressing S or Space Bar on keyboards]
+
+3) When you summon the Orb you will want to rotate your Wand as close you can in the direction of the orb to rise higher and as far awy from it to fall lower 
+
+**(Note rotations will still effect path of your wand when you choose not to summon the orb)**
+
+3) Otherwise if you want protection from the magical creations you will find on your journey you may want to summon a 
+
+4) You will be able to summon a protective shield [By pressing W or Left Click Buttons]
+
+5) You will only be able to summon these magical objects into the game world if you jounrey long enough, you will know you can start to purchase upgrades when your Magic Wand starts to spark
+
+Good Luck!
+"
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+z_index = -5
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.84
+offset_left = -128.0
+offset_top = -121.0
+offset_right = 2660.68
+offset_bottom = 1540.0
+texture = ExtResource("2_324jf")
+
+[node name="TextureRect2" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = 1522.0
+offset_top = 729.0
+offset_right = 1729.0
+offset_bottom = 1180.0
+texture = ExtResource("3_kru20")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = 1557.0
+offset_top = 621.0
+offset_right = 1694.0
+offset_bottom = 736.0
+texture = ExtResource("4_pl8e7")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 251.0
+offset_bottom = 655.0
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 854.0
+offset_top = 14.0
+offset_right = 1392.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 48
+text = "Wand's Way"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_vf0g7")
+
+[connection signal="button_down" from="VBoxContainer/Start" to="." method="_on_start_button_down"]
+[connection signal="button_down" from="VBoxContainer/Quit" to="." method="_on_quit_button_down"]

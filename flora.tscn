@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba8aydrwipf20"]
+
+[ext_resource type="Script" path="res://flora.gd" id="1_fixwi"]
+[ext_resource type="Texture2D" uid="uid://ygqd4pbvjcfd" path="res://GameArt/Dandelion.png" id="1_lq2hp"]
+
+[node name="Flora" type="Sprite2D"]
+position = Vector2(2, 437)
+scale = Vector2(39.8359, 123.898)
+texture = ExtResource("1_lq2hp")
+script = ExtResource("1_fixwi")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

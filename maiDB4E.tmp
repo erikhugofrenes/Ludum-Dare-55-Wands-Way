@@ -1,0 +1,257 @@
+[gd_scene load_steps=27 format=3 uid="uid://dmf3hqi16vssh"]
+
+[ext_resource type="Script" path="res://DandelionSeed.gd" id="1_l16qk"]
+[ext_resource type="Texture2D" uid="uid://dkfn652kgcbkq" path="res://GameArt/DandelionSeed.png" id="2_i1sag"]
+[ext_resource type="PackedScene" uid="uid://bpboeqmfnayqc" path="res://Particles/can_summon.tscn" id="3_f31g5"]
+[ext_resource type="Script" path="res://WindManager.gd" id="3_oleui"]
+[ext_resource type="Texture2D" uid="uid://dliu4f3dnvf6x" path="res://GameArt/helper.png" id="3_pyi5s"]
+[ext_resource type="Texture2D" uid="uid://b1e1iiuqmmfqq" path="res://GameArt/Shield.png" id="4_7pwxt"]
+[ext_resource type="Script" path="res://TravelDistanceManager.gd" id="4_gce3r"]
+[ext_resource type="Texture2D" uid="uid://8vv1jly3ci8v" path="res://GameArt/GrassFloorTexture.png" id="4_qxihy"]
+[ext_resource type="AudioStream" uid="uid://b2qlq10pnqy27" path="res://Audio/Wind 6070_47.wav" id="4_wr783"]
+[ext_resource type="AudioStream" uid="uid://df20se7tg5mwt" path="res://Audio/Jump 2.wav" id="6_6q3lo"]
+[ext_resource type="Texture2D" uid="uid://d38s6c0uvgy1o" path="res://GameArt/BlueSkyTexture.png" id="6_oxt18"]
+[ext_resource type="Script" path="res://MoveBackground.gd" id="8_epvbe"]
+[ext_resource type="Script" path="res://StartingFlower.gd" id="8_ofgph"]
+[ext_resource type="PackedScene" uid="uid://s7cnjy336ply" path="res://Particles/explosion.tscn" id="9_xr4e5"]
+[ext_resource type="PackedScene" uid="uid://ba8aydrwipf20" path="res://flora.tscn" id="11_gmjam"]
+[ext_resource type="PackedScene" uid="uid://cndjm7bh7bxtd" path="res://flora_spawnable_1.tscn" id="12_o1al2"]
+[ext_resource type="Script" path="res://TransitionScreen.gd" id="14_vlp10"]
+[ext_resource type="PackedScene" uid="uid://wdpiey5b47yd" path="res://enemy.tscn" id="15_omqrw"]
+[ext_resource type="AudioStream" uid="uid://b8xjyiwbiig52" path="res://Audio/Pickup_coin 7.wav" id="15_sbyag"]
+[ext_resource type="Script" path="res://EnemyManager.gd" id="16_aeir8"]
+[ext_resource type="Texture2D" uid="uid://2wevj0kqkv7u" path="res://GameArt/Clouds.png" id="19_waekm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5xfq"]
+size = Vector2(12, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw2qk"]
+size = Vector2(20, 83)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2y70j"]
+size = Vector2(29, 81)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhnmj"]
+size = Vector2(2302, 82)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y8m86"]
+size = Vector2(2304, 149.75)
+
+[node name="Main" type="Node2D"]
+
+[node name="DandelionSeedPlayer" type="Node2D" parent="."]
+position = Vector2(0, 437)
+script = ExtResource("1_l16qk")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="DandelionSeedPlayer"]
+mass = 0.01
+gravity_scale = 0.008
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DandelionSeedPlayer/RigidBody2D"]
+position = Vector2(0, -27.5)
+shape = SubResource("RectangleShape2D_q5xfq")
+
+[node name="Sprite2D" type="Sprite2D" parent="DandelionSeedPlayer/RigidBody2D"]
+position = Vector2(0.500001, -29.5)
+scale = Vector2(0.146484, 0.177734)
+texture = ExtResource("2_i1sag")
+
+[node name="Detector" type="Area2D" parent="DandelionSeedPlayer/RigidBody2D" groups=["Seed"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DandelionSeedPlayer/RigidBody2D/Detector"]
+position = Vector2(0, -27.5)
+shape = SubResource("RectangleShape2D_jw2qk")
+
+[node name="CanSummon" parent="DandelionSeedPlayer/RigidBody2D" instance=ExtResource("3_f31g5")]
+emitting = false
+
+[node name="Area2D" type="Area2D" parent="DandelionSeedPlayer/RigidBody2D" groups=["Shield"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="DandelionSeedPlayer/RigidBody2D/Area2D"]
+visible = false
+position = Vector2(38.5, -35)
+scale = Vector2(0.0761719, 0.140625)
+texture = ExtResource("4_7pwxt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DandelionSeedPlayer/RigidBody2D/Area2D"]
+position = Vector2(38.5, -36.5)
+shape = SubResource("RectangleShape2D_2y70j")
+
+[node name="Helper" type="Sprite2D" parent="DandelionSeedPlayer"]
+position = Vector2(-0.249998, -83.875)
+scale = Vector2(0.0327148, 0.0290528)
+texture = ExtResource("3_pyi5s")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="DandelionSeedPlayer"]
+stream = ExtResource("6_6q3lo")
+
+[node name="WindManager" type="Node2D" parent="."]
+script = ExtResource("3_oleui")
+
+[node name="Timer" type="Timer" parent="WindManager"]
+wait_time = 5.0
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="WindManager"]
+position = Vector2(1000, 0)
+stream = ExtResource("4_wr783")
+autoplay = true
+
+[node name="BirdZone" type="Area2D" parent="." groups=["High Altitude"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BirdZone"]
+position = Vector2(1, -607)
+shape = SubResource("RectangleShape2D_qhnmj")
+
+[node name="GroundZone" type="Area2D" parent="." groups=["Ground"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundZone"]
+position = Vector2(0, 572.875)
+shape = SubResource("RectangleShape2D_y8m86")
+
+[node name="Sprite2D" type="Sprite2D" parent="GroundZone"]
+z_index = -5
+position = Vector2(576, 573)
+scale = Vector2(4.5, 0.585938)
+texture = ExtResource("4_qxihy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="GroundZone"]
+z_index = -5
+position = Vector2(-576, 573)
+scale = Vector2(4.5, 0.585937)
+texture = ExtResource("4_qxihy")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="TravelDistanceManager" type="Node2D" parent="."]
+script = ExtResource("4_gce3r")
+
+[node name="Timer" type="Timer" parent="TravelDistanceManager"]
+autostart = true
+
+[node name="Label" type="Label" parent="TravelDistanceManager"]
+offset_left = -92.0
+offset_top = -540.0
+offset_right = 91.0
+offset_bottom = -495.0
+text = "distance traveled :  0  m"
+
+[node name="SkyBackground" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(576, 324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D2" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(-576, -324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D3" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(576, -324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="Sprite2D4" type="Sprite2D" parent="SkyBackground"]
+z_index = -20
+position = Vector2(-576, 324)
+scale = Vector2(4.5, 2.53125)
+texture = ExtResource("6_oxt18")
+
+[node name="MoveBackground" type="Node2D" parent="."]
+script = ExtResource("8_epvbe")
+flora_spawnable_scene = ExtResource("12_o1al2")
+
+[node name="StartingFlower" type="Node2D" parent="MoveBackground"]
+position = Vector2(1, 404)
+script = ExtResource("8_ofgph")
+
+[node name="explosion" parent="MoveBackground/StartingFlower" instance=ExtResource("9_xr4e5")]
+
+[node name="Timer" type="Timer" parent="MoveBackground"]
+wait_time = 8.0
+autostart = true
+
+[node name="Flora" parent="MoveBackground" instance=ExtResource("11_gmjam")]
+position = Vector2(-0.500001, 466)
+scale = Vector2(0.0601227, 0.0650307)
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="TransitionScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("14_vlp10")
+
+[node name="TextureRect" type="TextureRect" parent="TransitionScreen"]
+layout_mode = 0
+offset_left = -1149.0
+offset_top = -645.0
+offset_right = 1161.0
+offset_bottom = 661.0
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("6_oxt18")
+
+[node name="Retry" type="Button" parent="TransitionScreen"]
+layout_mode = 0
+offset_left = -25.0
+offset_top = -97.0
+offset_right = 25.0
+offset_bottom = -66.0
+text = "Retry
+"
+
+[node name="Main Menu" type="Button" parent="TransitionScreen"]
+layout_mode = 0
+offset_left = -66.0
+offset_top = -12.0
+offset_right = 67.0
+offset_bottom = 19.0
+text = "Return To Menu"
+
+[node name="Distance Traveled" type="Label" parent="TransitionScreen"]
+layout_mode = 0
+offset_left = -77.0
+offset_top = -184.0
+offset_right = 76.0
+offset_bottom = -161.0
+text = "Your Seed Traveled:"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="TransitionScreen"]
+stream = ExtResource("15_sbyag")
+
+[node name="EnemyManager" type="Node2D" parent="."]
+script = ExtResource("16_aeir8")
+enemy_spawnable_scene = ExtResource("15_omqrw")
+
+[node name="Timer" type="Timer" parent="EnemyManager"]
+wait_time = 2.5
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.478431)
+position = Vector2(1.50015, -607)
+scale = Vector2(1.1535, 0.041)
+texture = ExtResource("19_waekm")
+
+[connection signal="is_flying" from="DandelionSeedPlayer" to="WindManager" method="_on_dandelion_seed_player_is_flying"]
+[connection signal="is_flying" from="DandelionSeedPlayer" to="TravelDistanceManager" method="_on_dandelion_seed_is_flying"]
+[connection signal="area_entered" from="DandelionSeedPlayer/RigidBody2D/Detector" to="DandelionSeedPlayer" method="_on_detector_area_entered"]
+[connection signal="area_entered" from="DandelionSeedPlayer/RigidBody2D/Area2D" to="DandelionSeedPlayer" method="_on_area_2d_area_entered"]
+[connection signal="wind_rotation" from="WindManager" to="DandelionSeedPlayer" method="_on_wind_manager_wind_rotation"]
+[connection signal="timeout" from="WindManager/Timer" to="WindManager" method="_on_timer_timeout"]
+[connection signal="timeout" from="TravelDistanceManager/Timer" to="TravelDistanceManager" method="_on_timer_timeout"]
+[connection signal="timeout" from="MoveBackground/Timer" to="MoveBackground" method="_on_timer_timeout"]
+[connection signal="button_down" from="TransitionScreen/Retry" to="TransitionScreen" method="_on_retry_button_down"]
+[connection signal="button_down" from="TransitionScreen/Main Menu" to="TransitionScreen" method="_on_main_menu_button_down"]
+[connection signal="timeout" from="EnemyManager/Timer" to="EnemyManager" method="_on_timer_timeout"]
